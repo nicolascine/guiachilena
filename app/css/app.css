@@ -7,7 +7,8 @@ html, body {
 
 
 body.zipcode-false {
-    background-image : url('../img/fondito.png');
+    background-image : url('../img/fondito.jpg');
+    background-repeat: repeat;
 }
  
 /* utils */
@@ -266,9 +267,23 @@ button.btn-primary{
   color:#0E77E9;
   margin-right: 5px;
 }
+.modal-dialog{
+  border-radius: 10px;
+  background: white;
+  margin-top:150px;
+}
 
+.modal-header{
+  border:none;
+}
 
-
+.modal-body form select:first-child{
+  max-width: 250px;
+  margin-right: 5px;
+}
+.modal-body form input:last-child{
+  margin-left: 15px;
+}
 
 
 
