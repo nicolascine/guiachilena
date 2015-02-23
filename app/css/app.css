@@ -1,4 +1,11 @@
- 
+@import url(http://fonts.googleapis.com/css?family=Pacifico|Oxygen:400,700);
+
+/* all map containers must be full height */
+html, body { 
+  height: 100%;
+  font-family: 'Oxygen', sans-serif;
+}
+
 
 body.zipcode-false {
     background-image : url('../img/fondito.png');
@@ -192,10 +199,17 @@ body.zipcode-false {
   margin:0px !important;
 }
 
+.container-fluid{
+  background: #f4f4f4;
+}
+
 table tr.lugarActivo{
   background:red !important;
 }
-
+h2{
+  color:#444;
+  font-weight: 700;
+}
 .contieneInfo{
   padding:40px;
 }
@@ -205,8 +219,6 @@ table tr.lugarActivo{
   margin:0px;
 }
 
-/* all map containers must be full height */
-html, body { height: 100%;}
 
 .angular-google-map,
 .angular-google-map-container {
