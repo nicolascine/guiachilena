@@ -14,12 +14,25 @@ angular.module("lookAroundApp.controllers", [ ])
      * @param  {[type]} $routeParams
      * @return {[type]}
      */
-    .controller("ZipCodeFrmCtrl", function ($scope, $location, $routeParams) {
-        var placeurl = $routeParams.place || "";
+    .controller("ZipCodeFrmCtrl",
+        ["$scope", "$location", "$routeParams", 
+        function ($scope, $location, $routeParams){
+
+        var placeurl = $routeParams.place || "atm";
+
+
         $scope.sendZip = function (zipcode) {
-            $location.path("/search/" + zipcode + "/" + placeurl);
+            var queryLugar = zipcode.comunas.nombre + ", " + zipcode.regiones.nombre;
+            $location.path("/search/" + queryLugar + "/" + placeurl);
         };
-    })
+
+        $scope.buscaLugar = function (regionChile) {
+            var queryLugar = regionChile.comunas.nombre + ", " + regionChile.regiones.nombre;
+            $location.path("/search/" + queryLugar + "/" + placeurl);  
+        };
+
+
+    }])
 
     /**
      * [SearchCtrl]
@@ -39,10 +52,32 @@ angular.module("lookAroundApp.controllers", [ ])
      * @param  {[type]} $filter
      * @return {[type]}
      */
-    .controller("SearchCtrl", function ($scope, $routeParams, $location, googleMap, $http, $filter) {
+    .controller("SearchCtrl",
+        ["$scope", "$routeParams", "$location", "googleMap", "$http", "$filter",
+        function ($scope, $routeParams, $location, googleMap, $http, $filter) {
+        
         $scope.zipCode = $routeParams.zipcode;
         $scope.place = $routeParams.place;
         
+        var seleccion = $scope.zipCode.split(",");
+        var comunaSelected = seleccion[0];
+        var regionSelected = seleccion[1].substring(1);
+
+
+        //fucking loop.... para rescatar el index selected - región + comuna
+        for(var i=0;i<15;i++){
+            if($scope.regiones[i].nombre == regionSelected){
+                $scope.indexRegion = i;
+                for(var k=0;k<$scope.regiones[i].comunas.length; k++){
+                    if($scope.regiones[i].comunas[k].nombre == comunaSelected){
+                        $scope.indexComuna = k;
+                    }
+                }
+            }
+        }
+
+        
+
         /* redirect to the home page if there's no zipcode */
         if (!$scope.zipCode) {
             $location.path("/");
@@ -52,10 +87,11 @@ angular.module("lookAroundApp.controllers", [ ])
         Gets the default place types
         @TODO: this should go to a resolve object
         */
-        $http.get("data/places.json").success(function (results) {
-            $scope.places = results.data;
-        });
+       // $http.get("data/places.json").success(function (results) {
+       //     $scope.places = results.data;
+       // });
         
+
         /**
          * [getUrl get the url for different type of places ]
          * @param  {string} placeurl
@@ -100,9 +136,16 @@ angular.module("lookAroundApp.controllers", [ ])
             start the Geocoding to get the latitude and longitude from the 
             zipcode proviced. This lat/long will be served to the places api to fetch the places details
             */
+            //console.log("GEO CODE ------>");
+            //console.log($scope.zipCode);
             googleMap.getGeoCoder().geocode({
                 address: $scope.zipCode
             }, function (results, status) {
+                
+                //console.log("RESULTS -----> STATUS ----->");
+                //console.log(results);
+                //console.log(status);
+
                 var lat = results[ 0 ].geometry.location.lat(),
                     lng = results[ 0 ].geometry.location.lng();
 
@@ -110,26 +153,78 @@ angular.module("lookAroundApp.controllers", [ ])
                 $scope.$apply(function () {
                     $scope.searchplace = results[ 0 ] && results[ 0 ].formatted_address;
                 });
+                //console.log("SCOPE SEARCHPLACE --->");
+                //console.log($scope.searchplace);
+
+                var arrayLugar = $scope.place.split(',');
+                
+                //console.log("ARRAY LUGAR ------->");
+                //console.log(arrayLugar);
 
                 /* Do a text search and find all the places for the given query ( place type ) */
-                googleMap.placeService.textSearch({
-                    query: $scope.place,
-                    type: $scope.place,
+               // googleMap.placeService.textSearch({
+                googleMap.placeService.search({
+                    /*query: $scope.place,
+                    type: $scope.place, */
                     location: new googleMap._maps.LatLng(lat, lng),
-                    radius: 50
-                }, function (data) {
-                    /* 
+                    radius: 3000,
+                    types: arrayLugar
+                }, function (data, status) {
+                    console.log(data);
+                    if(status == 'ZERO_RESULTS'){
+                        console.log(" NO HAY RESULTADOSSSSSS ----> o.O!!! ");
+                        console.log(data);
+                        //$location.path("/");
+                    }else{
+                       
+                    }
+                    /*
                     Once getting the data, set it to the controller scope.
                     $scope.$apply is required because this function will be executed in the googleMap object scope
                     */
                     $scope.$apply(function () {
                         $scope.data = data;
+                        //console.log(data);
                     });
                 });
+                $scope.elLugarCompleto = googleMap.elLugarCompleto;
+                // console.log("-->");
+                // console.log($scope.elLugarCompleto);
             });
         }
 
-    })
+
+        $scope.initSlider = function () {
+
+               $(function () {
+                 // wait till load event fires so all resources are available
+                   //$scope.$slider = $('.nav-controller').on('click', function(event){
+
+
+                   $('nav#barra, .nav-controller').on('click', function(event) {
+                       $('nav#barra').toggleClass('focus');
+                   });
+                   /*$('nav#barra, .nav-controller').on('mouseover', function(event) {
+                       $('nav#barra').addClass('focus');
+                   }).on('mouseout', function(event) {
+                       $('nav#barra').removeClass('focus');
+                   })*/
+
+               });
+
+              /* $scope.onSlide = function (e, ui) {
+                  $scope.model = ui.value;
+                  $scope.$digest();
+               }; */
+           };
+
+           $scope.initSlider();
+
+
+          
+ 
+
+    }])
     
     /**
      * [ResultsTabCtrl]
@@ -142,7 +237,9 @@ angular.module("lookAroundApp.controllers", [ ])
      * @param  {[type]} scrollToElem
      * @return {[type]}
      */
-    .controller("ResultsTabCtrl", function ($scope, $routeParams, $location, googleMap, scrollToElem) {
+    .controller("ResultsTabCtrl",
+        ["$scope", "$routeParams", "$location", "googleMap", "scrollToElem",
+        function ($scope, $routeParams, $location, googleMap, scrollToElem) {
         $scope.tabs = {
             "map": false,
             "list": true
@@ -190,7 +287,7 @@ angular.module("lookAroundApp.controllers", [ ])
             };
             fn();
         });
-    })
+    }])
     
     /**
      * [MainCtrl]
@@ -200,36 +297,42 @@ angular.module("lookAroundApp.controllers", [ ])
      * @param  {[type]} $window
      * @return {[type]}
      */
-    .controller("MainCtrl", function ($scope, $routeParams, $location, $window) {
+    .controller("MainCtrl",
+        ["$scope", "$routeParams", "$location", "$window", "$http",
+        function ($scope, $routeParams, $location, $window, $http) {
+
         // checks if the url contains any valid zipcode
+
         $scope.applied = function () {
             return !!$routeParams.zipcode;
         };
+        
         // some Google analytics
-        $scope.$on("$viewContentLoaded", function (event) {
+        /*$scope.$on("$viewContentLoaded", function (event) {
             $window.ga("send", "pageview", {
                 "page": $location.path()
             });
-        });
-    })
+        }); */
+    
+       $http.get("data/chile.json").success(function (results) {
+           $scope.regiones = results.regiones;
+       });
 
-    // Just shows something about me and how I did this.
-    .controller("AboutDialogCtrl", function ($scope, $window) {
-        $scope.opened = false;
-        $scope.open = function () {
-            $scope.opened = true;
-            $window.ga("send", "pageview", {
-                "page": "about.html"
-            });
-        };
 
-        $scope.close = function () {
-            $scope.opened = false;
-        };
 
-        /* For the twitter bootstrap plugins */
-        $scope.opts = {
-            backdropFade: true,
-            dialogFade: true
-        };
-    });
+       /* 
+       Gets the default place types
+       @TODO: this should go to a resolve object
+       */
+       $http.get("data/places.json").success(function (results) {
+           $scope.places = results.data;
+       });
+       
+
+
+    }])
+
+
+
+
+

@@ -16,7 +16,26 @@ angular.module("lookAroundApp.services", [ ])
         factory.iconNameTmpl = 'img/markers/number_{0}.png';
         factory.mapWidth = 0;
 		factory.mapWidth = 0;
+        factory.buscaLaReferencia = function(){},
+        factory.lugarSeleccionadoPorClick = '';
+        factory.elLugarCompleto = {};
         
+
+
+        factory.buscaLaReferencia = function(referencia){
+            /* DETALLE DE LUGAR */ 
+            this.placeService.getDetails({
+                reference: this.lugarSeleccionadoPorClick
+            }, function (data, status) {
+                //console.log("ESTATUS DE LA REFERENCIA DE LUGAR ------>");
+                //console.log(status);
+              //  console.log("ESTA ES LA DATAAAAAAAA ------>");
+              //  console.log(data);
+                factory.elLugarCompleto = data;
+            });
+        }
+
+
         /**
          * Initialise the map
          * 
@@ -26,15 +45,21 @@ angular.module("lookAroundApp.services", [ ])
          */
         factory.initializeMap = function (elem, options) {
             options = options || {
-                zoom: 4,
+                zoom: 14,
                 center: new google.maps.LatLng(21.508742, -0.120850),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
-                zoomControlOptions: {
+                mapTypeControl: false,
+               
+               /* zoomControlOptions: {
                     position: google.maps.ControlPosition.RIGHT_BOTTOM
                 },
                 panControlOptions: {
                     position: google.maps.ControlPosition.RIGHT_BOTTOM
-                }
+                },*/
+
+                scrollwheel: false,
+                styles: [{featureType:'water',elementType:'all',stylers:[{hue:'#d7ebef'},{saturation:-5},{lightness:54},{visibility:'on'}]},{featureType:'landscape',elementType:'all',stylers:[{hue:'#eceae6'},{saturation:-49},{lightness:22},{visibility:'on'}]},{featureType:'poi.park',elementType:'all',stylers:[{hue:'#dddbd7'},{saturation:-81},{lightness:34},{visibility:'on'}]},{featureType:'poi.medical',elementType:'all',stylers:[{hue:'#dddbd7'},{saturation:-80},{lightness:-2},{visibility:'on'}]},{featureType:'poi.school',elementType:'all',stylers:[{hue:'#c8c6c3'},{saturation:-91},{lightness:-7},{visibility:'on'}]},{featureType:'landscape.natural',elementType:'all',stylers:[{hue:'#c8c6c3'},{saturation:-71},{lightness:-18},{visibility:'on'}]},{featureType:'road.highway',elementType:'all',stylers:[{hue:'#dddbd7'},{saturation:-92},{lightness:60},{visibility:'on'}]},{featureType:'poi',elementType:'all',stylers:[{hue:'#dddbd7'},{saturation:-81},{lightness:34},{visibility:'on'}]},{featureType:'road.arterial',elementType:'all',stylers:[{hue:'#dddbd7'},{saturation:-92},{lightness:37},{visibility:'on'}]},{featureType:'transit',elementType:'geometry',stylers:[{hue:'#c8c6c3'},{saturation:4},{lightness:10},{visibility:'on'}]}]
+
             };
             if (this.map) {
                 delete this.map;
@@ -87,6 +112,7 @@ angular.module("lookAroundApp.services", [ ])
          * @return {void}
          */
         factory.placeMarkers = function (data) {
+
             this.clearAllMarkers();
             var me = this,
                 bounds = new google.maps.LatLngBounds();
@@ -94,16 +120,42 @@ angular.module("lookAroundApp.services", [ ])
             angular.forEach(data, function (item, key) {
                 var latLng = new google.maps.LatLng(item.geometry.location.lat(), item.geometry.location.lng()),
                     currentMarker;    
-                me.markers.push(currentMarker =  new google.maps.Marker({
+
+                var tipoLugar = item.types[0].replace('_','-');
+                console.log(tipoLugar);
+
+                me.markers.push(currentMarker =  new Marker({
                     map: me.map,
                     position: latLng,
                     animation: google.maps.Animation.DROP,
-                    icon: me.getIcon(count++)
+                    //icon: me.getIcon(count++)
+                    icon: {
+                        path: MAP_PIN,
+                        fillColor: '#0E77E9',
+                        fillOpacity: 1,
+                        strokeColor: '',
+                        strokeWeight: 0,
+                        scale: 1/4
+                    },
+                    label: '<i class="map-icon-' + tipoLugar + '"></i>'
                 }));
                 bounds.extend(latLng);
                 google.maps.event.addListener(currentMarker, "click", function () {
+                    
                     me.selectedMarkerIdx = key;
+                    
+                    factory.lugarSeleccionadoPorClick = data[key].reference;
+                    
+                    factory.buscaLaReferencia(factory.lugarSeleccionadoPorClick);
+
+                    //console.log("kkkkk------>>>>");
+                    //console.log(factory.lugarSeleccionadoPorClick);
+
+
+                    $('nav#barra').toggleClass('focus');
                     $rootScope.$apply();
+
+
                 });
             });
             me.map.fitBounds(bounds);
