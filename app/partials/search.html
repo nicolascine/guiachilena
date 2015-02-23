@@ -1,111 +1,80 @@
+<div class="container-fluid">
+<div class="row">
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="ZipCodeFrmCtrl">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="http://guiachilena.cl">Guiachilena.cl</a>
+  <div class="col-md-3 columnaInfo">
+
+    <div class="contieneInfo">
+        <div class="infoGuia">
+          
+          <a href="#">
+            <img src="img/logo.svg" alt="guiachilena.cl" class="logotipo">
+          </a>
+<h2>guiachilena.cl</h2>
         </div>
 
+        <div ng-controller="ZipCodeFrmCtrl">
+              <form name="zipCodeFrm" novalidate>
+                    <select ng-model="regionChile.regiones" name="regiones" ng-options="region.nombre for region in regiones" ng-init="regionChile.regiones = regiones[indexRegion]" class="form-control">
+                        <option value="">Selecciona tu región</option>
+                    </select>
+                    <select ng-model="regionChile.comunas" name="comunas" required ng-options="comuna.nombre for comuna in regionChile.regiones.comunas" ng-init="regionChile.comunas = regionChile.regiones.comunas[indexComuna]" class="form-control">
+                        <option value="">Selecciona tu comuna</option>
+                    </select>
+                  <button type="submit" class="btn btn-primary" value="Buscar" ng-click="buscaLugar(regionChile)">Buscar</button>
+              </form>
+        </div>
 
-        <div id="navbar" class="navbar-collapse collapse">
-
-
-         <!-- <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul> -->
-
-          <form class="navbar-form navbar-right" name="zipCodeFrm" novalidate>
-                <select ng-model="regionChile.regiones" name="regiones" ng-options="region.nombre for region in regiones" ng-init="regionChile.regiones = regiones[indexRegion]" class="form-control">
-                    <option value="">Selecciona tu región</option>
-                </select>
-
-                <select ng-model="regionChile.comunas" name="comunas" required ng-options="comuna.nombre for comuna in regionChile.regiones.comunas" ng-init="regionChile.comunas = regionChile.regiones.comunas[indexComuna]" class="form-control">
-                    <option value="">Selecciona tu comuna</option>
-                </select>
-
-              <button type="submit" class="btn btn-primary" value="Buscar" ng-click="buscaLugar(regionChile)">Buscar</button>
-
-          </form>
-
-
-
-        </div><!--/.nav-collapse -->
-
+        <label class="m-bottom">
+        Filtrar por: 
+        <input type="text" ng-model="searchPlace" class="input-medium search-query">
+        </label>
+        <div class="bs-docs-sidebar places-container">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li ng-repeat="place in places | filter:searchPlace" ng-class="activeClass(place)">
+              <a ng-href="{{getUrl( place.url )}}">
+                <i class="icon-chevron-right"></i>
+                {{place.title}}
+              </a>
+            </li>
+          </ul>
       </div>
+
+
+
+    </div>
+  </div>
+  <div class="col-md-9 columnaMapa" ng-controller="ResultsTabCtrl">
+ 
+    <nav id="barra" class="animate">
+        <table id="tablaEncontrados">
+            <tr id="listItem{{$index}}" ng-repeat="details in data" 
+              ng-class="{lugarActivo:$index==selectedMarker}" 
+              ng-click="selectFromList($index)">
+              <td><img ng-src="img/markers/number_{{$index+1}}.png" class="list-markers" /></td>
+              <td>{{details.name}}</td>
+              <td>{{details.vicinity}}</td>
+            </tr>
+        </table>
     </nav>
 
-    <div id="flotante">
-      <label class="m-bottom">
-      Filtrar por: 
-      <input type="text" ng-model="searchPlace" class="input-medium search-query">
-      </label>
-      <div class="bs-docs-sidebar places-container">
-        <ul class="nav nav-list bs-docs-sidenav affix-top">
-          <li ng-repeat="place in places | filter:searchPlace" ng-class="activeClass(place)">
-            <a ng-href="{{getUrl( place.url )}}">
-              <i class="icon-chevron-right"></i>
-              {{place.title}}
-            </a>
-          </li>
-        </ul>
-      </div>
+    <div class="nav-controller">
+        <span class="[ glyphicon glyphicon-chevron-down ] controller-open"></span>
+        <span class="[ glyphicon glyphicon-remove ] controller-close"></span>
     </div>
+    
+   <div id="map-canvas" gmap data="data"></div> 
 
+ 
 
-  <!--<div class="panelResultado" style="background:#f8f8f8;height:100%;width:50%;z-index:888889999;position:absolute;right:0px;top:0px;margin-top:51px;padding:30px;">
-    ~ esto es un resultado ~
-  </div>-->
-
-
-  <div ng-controller="ResultsTabCtrl">
-
-  <nav id="barra" class="animate">
-      <!--{{datosDetalleLugar.name}}<br><br>
-      {{datosDetalleLugar.formatted_address}}<br><br>-->
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Nombre</th>
-            <th>Direccion</th>
-             
-          </tr>
-        </thead>
-        <tbody id="listLugares">
-          <tr id="listItem{{$index}}" ng-repeat="details in data" 
-            ng-class="{active:$index==selectedMarker}" 
-            ng-click="selectFromList($index)">
-            <td><img ng-src="img/markers/number_{{$index+1}}.png" class="list-markers" /></td>
-            <td>{{details.name}}</td>
-            <td>{{details.vicinity}}</td>
-            <!--<td>{{getLocation(details)}}</td>-->
-          </tr>
-        </tbody>
-
-        
-      </table>
-
-
-  </nav>
-
-  <div class="nav-controller">
-      <span class="[ glyphicon glyphicon-chevron-down ] controller-open"></span>
-      <span class="[ glyphicon glyphicon-remove ] controller-close"></span>
   </div>
-
-  	<div id="mapContainer" gmap data="data"></div>
-  </div>
-
+</div>
+</div>
 
 
 
+ 
 
 
+<!--<div class="panelResultado" style="background:#f8f8f8;height:100%;width:50%;z-index:888889999;position:absolute;right:0px;top:0px;margin-top:51px;padding:30px;">
+  ~ esto es un resultado ~
+</div>-->

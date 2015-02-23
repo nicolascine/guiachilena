@@ -204,6 +204,8 @@ angular.module("lookAroundApp.controllers", [ ])
                    $('nav#barra, .nav-controller').on('click', function(event) {
                        $('nav#barra').toggleClass('focus');
                    });
+
+
                    /*$('nav#barra, .nav-controller').on('mouseover', function(event) {
                        $('nav#barra').addClass('focus');
                    }).on('mouseout', function(event) {
@@ -328,7 +330,7 @@ angular.module("lookAroundApp.controllers", [ ])
            $scope.places = results.data;
        });
        
-
+        
 
     }])
 

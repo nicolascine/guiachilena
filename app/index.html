@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>GuiaChilena.cl</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <!--  <link href="////cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css" rel="stylesheet" type="text/css" />-->
       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
      
    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />-->
-
+  
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="css/fonts/css/map-icons.css" />
 
@@ -17,7 +18,7 @@
 
     <!-- View placeholder -->
     <div ng-view></div>
-    
+
     <div class="loading-indicator">
         <div class='text'> Cargando ... </div>
     </div>
@@ -42,128 +43,8 @@
     <script src="js/filters.js"></script>
     <script src="js/directives.js"></script>
     <script src="js/utils.js"></script>
-    
-    <style>
-    .marker-label,
-    .marker-icon {
-        z-index: 99;
-        position: absolute;
-        display: block;
-        margin-top: -35px;
-        margin-left: -25px;
-        width: 50px;
-        height: 50px;
-        font-size: 17px !important;
-        text-align: center;
-        color: #FFFFFF;
-        white-space: nowrap;
-    }
-    #mapContainer{
-       height: 100%;
-       position: absolute; 
-       top: 50px; 
-       /* bottom: -200px; */
-       left: 0; 
-       right: 0; 
-       z-index: 0;
-    }
-    body{overflow:hidden;}
-    </style>
-
-
-    <style>
-
-   
-
-    .animate {
-        -webkit-transition: all 0.5s ease-in-out;
-        -moz-transition: all 0.5s ease-in-out;
-        -o-transition: all 0.5s ease-in-out;
-        -ms-transition: all 0.5s ease-in-out;
-        transition: all 0.5s ease-in-out;
-    }
-
-    .nav-controller {
-        position: fixed;
-        top: 55px;
-        right: 15px;
-        padding: 5px 6px 1px;
-        border: 5px solid rgb(51, 51, 51);
-        color: rgb(51, 51, 51);
-        border-radius: 25px;
-        font-size: 12pt;
-        cursor: pointer;
-        z-index: 300;
-    }
-
-    nav#barra ~ .nav-controller > .controller-open {
-        display: inline-block;
-    }
-
-    nav#barra ~ .nav-controller > .controller-close {
-        display: none;
-    }
-    nav#barra.focus ~ .nav-controller > .controller-open {
-        display: none;
-    }
-
-    nav#barra.focus ~ .nav-controller > .controller-close {
-        display: inline-block;
-    }
-
-    nav#barra {
-        position: fixed;
-        top: 0px;
-        right: -100%;
-        padding:60px 30px 30px 30px;
-        height: 100%;
-        max-width: 40%;
-        text-align: left;
-        background-color: rgb(255, 255, 255);
-        box-shadow: -3px 0px 3px 0px rgba(160, 160, 160, 0.30);
-        z-index: 100;    
-        overflow: auto;
-    }
-
-    nav#barra.focus {
-        right: 0px;
-    }
-
-    nav#barra > .divider {
-        content: '';
-        border-bottom: 1px solid rgb(230, 230, 230);
-        max-height: 1px;
-        overflow: hidden;
-        margin: 15px 0px;
-    }
-    
-/*   tbody tr{
-        display:none;
-    }    
-    tbody tr.activo{
-        display:inline;
-    }
-*/
-
-
-    #flotante{
-
-        position: absolute !important;
-        top: 80px !important;
-        left: 100px !important;
-        z-index: 100 !important;
-        height: 300px !important;
-        background:white !important;
-        display: block !important;
-        overflow: hidden !important;
-        overflow-y: visible !important;
-        padding: 20px 15px !important;
-
-    }
-
-
-    </style>
-
 
 </body>
 </html>
+
+

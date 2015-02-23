@@ -151,8 +151,12 @@ angular.module("lookAroundApp.services", [ ])
                     //console.log("kkkkk------>>>>");
                     //console.log(factory.lugarSeleccionadoPorClick);
 
+                    //$('tr.lugarActivo').parent().prependTo("tbody#listLugares");
+                    //insertBefore($("table tr:first"));
+
 
                     $('nav#barra').toggleClass('focus');
+
                     $rootScope.$apply();
 
 
@@ -183,7 +187,9 @@ angular.module("lookAroundApp.services", [ ])
             // cw: Would like to pan & zoom to this, but V3 API doesn't make this possible.
             this.map.setCenter(p);
             // cw: Zoom level determined by hand. Should be a better way.
+            
             this.map.setZoom(16);
+            
             // cw: Alternative -- find closest marker, add both points to bounds and zoom to 
             // that to show context.
         };
@@ -207,13 +213,17 @@ angular.module("lookAroundApp.services", [ ])
     .factory("scrollToElem", function ($window, $timeout) {
         return {
             scrollTo: function (elemId) {
-                var elem = document.getElementById(elemId);
+
+              var elem = document.getElementById(elemId);
                 if (!elem) {
                     $window.scrollTo(0, 0);
                     return;
                 }
+
                 $timeout(function () {
-                    elem.scrollIntoView();
+                   // elem.scrollIntoView();
+                    $('tr.lugarActivo').insertBefore($("table tr:first"));
+
                 }, 100);
 
             }

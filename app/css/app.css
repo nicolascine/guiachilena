@@ -1,7 +1,9 @@
+ 
+
 body.zipcode-false {
     background-image : url('../img/fondito.png');
 }
-
+ 
 /* utils */
 
 .m-bottom {
@@ -48,7 +50,7 @@ body.zipcode-false {
   margin-left: -50px;
 }
 .bs-docs-sidebar.places-container {
-  max-height: 600px;
+  max-height: 100px;
   overflow: scroll;
 }
 .show-searchplace {
@@ -70,3 +72,149 @@ body.zipcode-false {
   background-color: transparent !important;
 }
 
+
+
+.marker-label,
+.marker-icon {
+    z-index: 99;
+    position: absolute;
+    display: block;
+    margin-top: -35px;
+    margin-left: -25px;
+    width: 50px;
+    height: 50px;
+    font-size: 17px !important;
+    text-align: center;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+
+
+
+
+    .animate {
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .nav-controller {
+        position: fixed;
+        top: 55px;
+        right: 15px;
+        padding: 5px 6px 1px;
+        border: 5px solid rgb(51, 51, 51);
+        color: rgb(51, 51, 51);
+        border-radius: 25px;
+        font-size: 12pt;
+        cursor: pointer;
+        z-index: 300;
+    }
+
+    nav#barra ~ .nav-controller > .controller-open {
+        display: inline-block;
+    }
+
+    nav#barra ~ .nav-controller > .controller-close {
+        display: none;
+    }
+    nav#barra.focus ~ .nav-controller > .controller-open {
+        display: none;
+    }
+
+    nav#barra.focus ~ .nav-controller > .controller-close {
+        display: inline-block;
+    }
+
+    nav#barra {
+        position: fixed;
+        top: 0px;
+        right: -100%;
+        padding:60px 30px 30px 30px;
+        height: 100%;
+        max-width: 40%;
+        text-align: left;
+        background-color: rgb(255, 255, 255);
+        box-shadow: -3px 0px 3px 0px rgba(160, 160, 160, 0.30);
+        z-index: 100;    
+        overflow: auto;
+    }
+
+    nav#barra.focus {
+        right: 0px;
+    }
+
+    nav#barra > .divider {
+        content: '';
+        border-bottom: 1px solid rgb(230, 230, 230);
+        max-height: 1px;
+        overflow: hidden;
+        margin: 15px 0px;
+    }
+    
+/*   tbody tr{
+        display:none;
+    }    
+    tbody tr.activo{
+        display:inline;
+    }
+*/
+  /*  #flotante{
+
+        position: absolute !important;
+        top: 80px !important;
+        left: 100px !important;
+        z-index: 100 !important;
+        height: 300px !important;
+        background:white !important;
+        display: block !important;
+        overflow: hidden !important;
+        overflow-y: visible !important;
+        padding: 20px 15px !important;
+
+    }
+*/
+
+
+.infoGuia{
+  text-align: center;
+}
+
+.infoGuia img{
+  margin:0 auto;
+}
+
+.row, .container, .container-fluid{
+  padding:0px !important;
+  margin:0px !important;
+}
+
+table tr.lugarActivo{
+  background:red !important;
+}
+
+.contieneInfo{
+  padding:40px;
+}
+
+.columnaMapa{
+  padding:0px;
+  margin:0px;
+}
+
+/* all map containers must be full height */
+html, body { height: 100%;}
+
+.angular-google-map,
+.angular-google-map-container {
+  width: 100%;
+  height: 100%;
+}
+#map-canvas { width:100%; height:100%; height: 900px; height:100vh !important;  }
+.logotipo{
+  width: 150px;
+  height: auto;
+}
