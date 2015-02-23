@@ -1,6 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Pacifico|Oxygen:400,700);
 
-/* all map containers must be full height */
 html, body { 
   height: 100%;
   font-family: 'Oxygen', sans-serif;
@@ -56,10 +55,7 @@ body.zipcode-false {
   left: 50%;
   margin-left: -50px;
 }
-.bs-docs-sidebar.places-container {
-  max-height: 100px;
-  overflow: scroll;
-}
+
 .show-searchplace {
   clear: both;
   text-align: center;
@@ -140,7 +136,7 @@ body.zipcode-false {
         position: fixed;
         top: 0px;
         right: -100%;
-        padding:60px 30px 30px 30px;
+        padding:60px 50px 60px 30px;
         height: 100%;
         max-width: 40%;
         text-align: left;
@@ -204,21 +200,20 @@ body.zipcode-false {
 }
 
 table tr.lugarActivo{
-  background:red !important;
+  background:#eee !important;
 }
 h2{
   color:#444;
   font-weight: 700;
 }
 .contieneInfo{
-  padding:40px;
+  padding:0px 35px;
 }
 
 .columnaMapa{
   padding:0px;
   margin:0px;
 }
-
 
 .angular-google-map,
 .angular-google-map-container {
@@ -230,3 +225,55 @@ h2{
   width: 150px;
   height: auto;
 }
+
+.formularioInterior{
+  text-align: center;
+  margin-top:30px;
+}
+select.form-control{
+  margin:6px 0px;
+}
+button.btn-primary{
+  width: 100%;
+  margin:0 auto;
+}
+
+.listadoPlaces li.active{
+    background: #c7c5c2;
+    color:white;
+  }
+.listadoPlaces li.active a{
+  color:white;
+}
+
+.places-container{
+  border:1px dashed #444;
+  max-height: 250px;
+  overflow: scroll;
+}
+.buscador{
+  margin-top:25px;
+}
+
+#tablaEncontrados tr{
+  border-bottom: 1px dashed #eceae7;
+  padding:10px 5px;
+  display: block;
+}
+
+#tablaEncontrados tr td i{
+  font-size:1.5em;
+  color:#0E77E9;
+  margin-right: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+

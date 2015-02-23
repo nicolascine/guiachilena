@@ -2,17 +2,16 @@
 
 "use strict";
 
-var lookAroundApp = angular.module("lookAroundApp", [
+var guiachilenaApp = angular.module("guiachilenaApp", [
     "ngRoute",
-    "lookAroundApp.services",
-    "lookAroundApp.controllers",
-    "lookAroundApp.filters",
-    "lookAroundApp.directives"
-    /*"ui.bootstrap"*/
+    "guiachilenaApp.services",
+    "guiachilenaApp.controllers",
+    "guiachilenaApp.filters",
+    "guiachilenaApp.directives"
 ]);
 
 
-lookAroundApp.config(['$routeProvider', function ($routeProvider) {
+guiachilenaApp.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider
         .when("/",

@@ -4,7 +4,7 @@
 
 /* Services */
 
-angular.module("lookAroundApp.services", [ ])
+angular.module("guiachilenaApp.services", [ ])
 
     .factory("googleMap", function ($rootScope) {
         var factory = {};
@@ -122,7 +122,7 @@ angular.module("lookAroundApp.services", [ ])
                     currentMarker;    
 
                 var tipoLugar = item.types[0].replace('_','-');
-                console.log(tipoLugar);
+                //console.log(tipoLugar);
 
                 me.markers.push(currentMarker =  new Marker({
                     map: me.map,

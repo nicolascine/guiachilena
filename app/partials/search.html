@@ -1,21 +1,16 @@
 <div class="container-fluid">
 <div class="row">
-
   <div class="col-md-3 columnaInfo">
-
     <div class="contieneInfo">
         <div class="infoGuia">
-          
           <a href="#">
             <img src="img/logo.svg" alt="guiachilena.cl" class="logotipo">
           </a>
           
           <h2>guiachilena.cl</h2>
-        
         </div>
-
         <div ng-controller="ZipCodeFrmCtrl">
-              <form name="zipCodeFrm" novalidate>
+              <form name="zipCodeFrm" novalidate class="formularioInterior">
                     <select ng-model="regionChile.regiones" name="regiones" ng-options="region.nombre for region in regiones" ng-init="regionChile.regiones = regiones[indexRegion]" class="form-control">
                         <option value="">Selecciona tu región</option>
                     </select>
@@ -25,36 +20,39 @@
                   <button type="submit" class="btn btn-primary" value="Buscar" ng-click="buscaLugar(regionChile)">Buscar</button>
               </form>
         </div>
-
-        <label class="m-bottom">
-        Filtrar por: 
-        <input type="text" ng-model="searchPlace" class="input-medium search-query">
-        </label>
-        <div class="bs-docs-sidebar places-container">
-          <ul class="nav nav-list bs-docs-sidenav affix-top">
-            <li ng-repeat="place in places | filter:searchPlace" ng-class="activeClass(place)">
-              <a ng-href="{{getUrl( place.url )}}">
-                <i class="icon-chevron-right"></i>
-                {{place.title}}
-              </a>
-            </li>
-          </ul>
+        
+        <div class="buscador">
+          <label class="m-bottom">
+          Filtrar por: 
+           <input type="text" ng-model="searchPlace" class="input-medium search-query">
+          </label>
+          <div class="bs-docs-sidebar places-container">
+            <ul class="nav nav-list bs-docs-sidenav affix-top listadoPlaces">
+              <li ng-repeat="place in places | filter:searchPlace" ng-class="activeClass(place)">
+                <a ng-href="{{getUrl( place.url )}}">
+                  <i class="icon-chevron-right"></i>
+                  {{place.title}}
+                </a>
+              </li>
+            </ul>
+        </div>
       </div>
-
-
 
     </div>
   </div>
   <div class="col-md-9 columnaMapa" ng-controller="ResultsTabCtrl">
  
     <nav id="barra" class="animate">
+        <h3>Resultados</h3>
+        <p>Cerca de {{searchplace}}</p>
         <table id="tablaEncontrados">
-            <tr id="listItem{{$index}}" ng-repeat="details in data" 
-              ng-class="{lugarActivo:$index==selectedMarker}" 
-              ng-click="selectFromList($index)">
-              <td><img ng-src="img/markers/number_{{$index+1}}.png" class="list-markers" /></td>
-              <td>{{details.name}}</td>
-              <td>{{details.vicinity}}</td>
+            <tr id="listItem{{$index}}" ng-repeat="details in data" ng-class="{lugarActivo:$index==selectedMarker}" ng-click="selectFromList($index)">
+              <td>
+                <i class="map-icon-{{ details.types[0] | changeMapIcon }}"></i>
+              </td>
+              <td>
+                <b>{{details.name}}</b><br>{{details.vicinity}}
+              </td>
             </tr>
         </table>
     </nav>
@@ -65,18 +63,6 @@
     </div>
     
    <div id="map-canvas" gmap data="data"></div> 
-
- 
-
   </div>
 </div>
 </div>
-
-
-
- 
-
-
-<!--<div class="panelResultado" style="background:#f8f8f8;height:100%;width:50%;z-index:888889999;position:absolute;right:0px;top:0px;margin-top:51px;padding:30px;">
-  ~ esto es un resultado ~
-</div>-->

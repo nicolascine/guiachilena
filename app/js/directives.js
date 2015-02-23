@@ -5,7 +5,7 @@
 /* Directives */
 
 
-angular.module("lookAroundApp.directives", [ ]).
+angular.module("guiachilenaApp.directives", [ ]).
 
     directive("gmap", [ "googleMap",
         function (googleMap) {

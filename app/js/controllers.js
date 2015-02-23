@@ -2,7 +2,7 @@
 "use strict";
 
 
-angular.module("lookAroundApp.controllers", [ ])
+angular.module("guiachilenaApp.controllers", [ ])
     
     /**
      * [ZipCodeFrmCtrl]
@@ -170,7 +170,7 @@ angular.module("lookAroundApp.controllers", [ ])
                     radius: 3000,
                     types: arrayLugar
                 }, function (data, status) {
-                    console.log(data);
+                    //console.log(data);
                     if(status == 'ZERO_RESULTS'){
                         console.log(" NO HAY RESULTADOSSSSSS ----> o.O!!! ");
                         console.log(data);
@@ -330,7 +330,6 @@ angular.module("lookAroundApp.controllers", [ ])
            $scope.places = results.data;
        });
        
-        
 
     }])
 
